@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Header, Card } from 'react-native-elements';
+import { Icon, Button } from 'native-base'
 
 class reviewdetail extends Component {
     state = { data: [] }
@@ -19,12 +20,38 @@ class reviewdetail extends Component {
         })
     }
     render() {
-        console.log(this.state.data);
+        var asd = this.state.data[0]
+        // console.log(this.state.data[0] + 'yang ini');
+        var myJSON = JSON.stringify(asd)
+        console.log(myJSON + 'yang ini');
         return (
             <View>
-                <Text>
-                    ini detail
-                </Text>
+                <FlatList
+                    data={this.state.data}
+                    renderItem={({ item }) => (
+                        <View style={{ width: '50%' }}>
+                            <Card data={item}>
+                                <Text>
+                                    {item.review.user.name}
+                                    <Icon
+                                        type='FontAwesome'
+                                        name='star'
+                                        style={{
+                                            fontSize: 10,
+                                            color: 'gold'
+                                        }}
+                                    />
+                                    {item.review.rating}
+                                    ({item.review.rating_text})
+                                    {item.review.review_time_friendly}
+                                    {item.review.review_text}
+                                </Text>
+                            </Card>
+                        </View>
+                    )}
+                    // keyExtractor={item => item.restaurant.name}
+                    style={{ width: '98%' }}
+                />
             </View>
         );
     }
