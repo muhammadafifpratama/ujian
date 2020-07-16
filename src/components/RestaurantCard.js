@@ -3,48 +3,40 @@ import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, View 
 import { Image } from 'react-native'
 
 
-const RestaurantCard = ({ data })=>{
-    return(
+const RestaurantCard = ({ data }) => {
+    return (
         <Card>
             <View style={{ borderTopStartRadius: 20 }}>
-                <Image 
-                    source={{ uri:data.restaurant.featured_image }} 
-                    style={{ height: 200, width:"100%" }}
+                <Image
+                    source={{ uri: data.header_image }}
+                    style={{ height: 200, width: "100%" }}
                 />
-            </View>            
-            <CardItem style={{ marginTop:-10 }}>
+            </View>
+            <CardItem style={{ marginTop: -10 }}>
                 <Left>
-                    <Icon 
-                        type='FontAwesome'
-                        name='star' 
-                        style={{ 
-                            fontSize:10,
-                            color:'gold' 
-                        }} 
-                    />
-                    <Text 
+                    <Text
                         style={{
-                            fontSize:10,
-                            color:'black'
+                            fontSize: 10,
+                            color: 'black'
                         }}
                     >
-                        {data.restaurant.user_rating.aggregate_rating}
+                        Rp. {(data.final_price/100)}
                     </Text>
                 </Left>
             </CardItem>
             <CardItem style={{ marginTop: -15 }}>
-                <Text 
+                <Text
                     style={{
-                        fontWeight:'bold',
-                        marginRight:5,
-                        fontSize:13
+                        fontWeight: 'bold',
+                        marginRight: 5,
+                        fontSize: 13
                     }}
                 >
-                    {data.restaurant.name} 
+                    {data.name}
                 </Text>
             </CardItem>
         </Card>
-        
+
     )
 }
 

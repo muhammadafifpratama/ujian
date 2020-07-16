@@ -39,32 +39,19 @@ class Home extends React.Component {
                         flex: 3
                     }}
                 />
-                <View style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    paddingTop: 10
-                }}>
-                    <IconHome icons={'credit-card'} types={'entypo'} name={'Credit'} />
-                    <IconHome icons={'food-variant'} types={'material-community'} name={'Variant'} />
-                    <IconHome icons={'food-fork-drink'} types={'material-community'} name={'Recipe'} />
-                    <IconHome icons={'location-pin'} types={'entypo'} name={'Location'} />
-                    <IconHome icons={'shopping-cart'} types={'font-awesome'} name={'Cart'} />
-                    <IconHome icons={'local-pizza'} types={'material'} name={'Pizza'} />
-                    <IconHome icons={'hamburger'} types={'material-community'} name={'Burger'} />
-                    <IconHome icons={'more-horizontal'} types={'feather'} name={'More'} />
-                </View>
+
                 <FlatList
                     data={this.props.homeListPost.listPost}
                     renderItem={({ item }) => (
                         <TouchableWithoutFeedback
-                            onPress={() => this.restaurantItemPress(item.restaurant)}
+                            onPress={() => this.restaurantItemPress(item)}
                         >
                             <View style={{ width: '50%' }}>
                                 <RestaurantCard data={item} />
                             </View>
                         </TouchableWithoutFeedback>
                     )}
-                    keyExtractor={item => item.restaurant.name}
+                    keyExtractor={item => item.name}
                     style={{ width: '98%' }}
                     numColumns={2}
                     onRefresh={() => this.props.getHomeListPost()}

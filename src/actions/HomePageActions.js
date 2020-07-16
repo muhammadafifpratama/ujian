@@ -8,14 +8,10 @@ import {
 export const getHomeListPost = () => {
     return async (dispatch) => {
         try {
-            const res = await axios.get('https://developers.zomato.com/api/v2.1/search?start=1&count=10&sort=rating', {
-                headers: {
-                    "user-key": "75162bb707dfc9544420513e4f7bb699"
-                }
-            })
+            const res = await axios.get('https://store.steampowered.com/api/featured/')
             dispatch({
                 type: FILL_LIST_POST,
-                payload: res.data.restaurants
+                payload: res.data.featured_win
             })
         } catch (err) {
             console.log(err)
