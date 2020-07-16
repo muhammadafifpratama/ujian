@@ -13,7 +13,7 @@ class App extends React.Component {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>
         <NavigationContainer>
-            <MainNavigation />
+          <MainNavigation />
         </NavigationContainer>
       </Provider>
     )
