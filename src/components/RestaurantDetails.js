@@ -7,47 +7,33 @@ import axios from 'axios';
 import { Icon, Button } from 'native-base'
 
 class RestaurantDetails extends React.Component {
-    state = { username: '', rating: '', time: '', text: '', star: '' }
+    state = { nama: '', harga: '', gambar: '', developers: '', publishers: '', genre: "", description: "" }
     componentDidMount() {
-        // this.props.getreviewlist()
-        // var rese = (this.props.reviewdetails.review)
-        // var myJSON = JSON.stringify(rese)
-        // var myJSON = JSON.stringify(rese)
-        var restoran = this.props.restaurantDetails.id
-        console.log(this.props.restaurantDetails.id);
-        axios.get(`https://developers.zomato.com/api/v2.1/reviews?res_id=${restoran}&start=1&count=2`, {
-            headers: {
-                "user-key": "75162bb707dfc9544420513e4f7bb699"
-            }
-        }).then((res) => {
-            console.log(res.data.user_reviews[0].review.rating_text);
-            this.setState({
-                username: res.data.user_reviews[0].review.user.name,
-                rating: res.data.user_reviews[0].review.rating_text,
-                time: res.data.user_reviews[0].review.review_time_friendly,
-                text: res.data.user_reviews[0].review.review_text,
-                star: res.data.user_reviews[0].review.rating
+        var id = this.props.restaurantDetails.id
+        axios.get(`https://store.steampowered.com/api/appdetails?appids=${id}`)
+            .then((res) => {
+                console.log(this.state.nama+"ww");
+                nominal = "Rp. " + (res.data[id].data.price_overview.final/100)
+                this.setState({
+                    nama: res.data[id].data.name,
+                    harga: nominal,
+                    gambar: res.data[id].data.header_image,
+                    developers: res.data[id].data.developers,
+                    publishers: res.data[id].data.publishers,
+                    genre: res.data[id].data.genres[0].description,
+                    description: res.data[id].data.short_description
+                })
             })
-        })
-    }
-
-    reviewtItemPress = (review) => {
-        // this.props.initreviewdetail(review)
-        // this.props.navigation.navigate('RestaurantDetails')
     }
 
     render() {
-        // var awal = (this.props.reviewdetails.review)
-        // // var rese = (this.props.reviewdetails.review[0].review)
-        // var myJSON = JSON.stringify(awal)
-        // console.log(myJSON + 'yang ini');
-        console.log(this.state.data + ' dirender');
+        console.log(this.state.nama+ "keluar");
         return (
             <ScrollView>
                 <Header
                     placement='left'
                     centerComponent={{
-                        text: this.props.restaurantDetails.name,
+                        text: this.state.nama,
                         style: { color: 'white', fontSize: 18, fontWeight: '700' }
                     }}
                     leftComponent={{
@@ -64,8 +50,8 @@ class RestaurantDetails extends React.Component {
                 />
                 <View>
                     <Card
-                        title={this.props.restaurantDetails.name + `\n(Rating : ${this.props.restaurantDetails.user_rating.aggregate_rating})`}
-                        image={{ uri: this.props.restaurantDetails.featured_image }}
+                        featuredTitle={this.state.nama}
+                        image={{ uri: this.state.gambar}}
                         wrapperStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         imageWrapperStyle={{ width: '100%' }}
                         imageStyle={{ height: 250 }}
@@ -75,67 +61,47 @@ class RestaurantDetails extends React.Component {
                             fontSize: 18,
                             textDecorationLine: 'underline'
                         }}>
-                            Address
-                        </Text>
+                            Harga
+                    </Text>
                         <Text style={{ marginBottom: 10 }}>
-                            {this.props.restaurantDetails.location.address}
-                            {/* {this.props.reviewdetails.review[0].review.review_text} */}
+                            {this.state.harga}
                         </Text>
                         <Text style={{
                             marginBottom: 10,
                             fontSize: 18,
                             textDecorationLine: 'underline'
                         }}>
-                            Cuisines
-                        </Text>
+                            Developers
+                    </Text>
                         <Text style={{ marginBottom: 10 }}>
-                            {this.props.restaurantDetails.cuisines}
+                            {this.state.developers}
                         </Text>
                         <Text style={{
                             marginBottom: 10,
                             fontSize: 18,
                             textDecorationLine: 'underline'
                         }}>
-                            Open Schedule
-                        </Text>
+                            Publishers
+                    </Text>
                         <Text style={{ marginBottom: 10 }}>
-                            {this.props.restaurantDetails.timings}
+                            {this.state.publishers}
                         </Text>
                         <Text style={{
                             marginBottom: 10,
                             fontSize: 18,
                             textDecorationLine: 'underline'
                         }}>
-                            Avg Cost for 2 Persons
-                        </Text>
+                            Genre
+                    </Text>
                         <Text style={{ marginBottom: 10 }}>
-                            {this.props.restaurantDetails.currency}{this.props.restaurantDetails.average_cost_for_two}
+                            {this.state.genre}
                         </Text>
-                    </Card>
-                    <Card>
-                        <Text>
-                            {this.state.username}
-                        </Text>
-                        <Text><Icon
-                            type='FontAwesome'
-                            name='star'
-                            style={{
-                                fontSize: 10,
-                                color: 'gold'
-                            }}
-                        />
-                            {this.state.star}
-                            ({this.state.rating})
-                            {this.state.time}
-                        </Text>
-                        <Text>
-
-                        </Text>
-                        <Text>
-                            {this.state.text}
-                        </Text>
-                        <Button onPress={() => this.props.navigation.navigate('reviewdetail')}>
-                        </Button>
+                        <Button
+                        title="register"
+                        containerStyle={{ width: '95%', marginBottom: 10 }}
+                        buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
+                        onPress={this.toregister}
+                    />
                     </Card>
                 </View>
             </ScrollView>
