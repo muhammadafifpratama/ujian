@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import HomeNav from './HomeNav';
 import LogOutPage from '../components/LogOutPage';
+import cart from '../components/cart'
+import inventory from '../components/inventory'
+import { ImagePickerIOS } from 'react-native';
+import table from '../components/cartable'
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +26,10 @@ export default ({ navigation }) => {
                     iconName = 'home';
                   } else if (route.name === 'LogOut') {
                     iconName = 'restaurant-menu';
+                  }else if (route.name === 'cart') {
+                    iconName = 'activity';
+                  }else if (route.name === 'inventory') {
+                    iconName = 'all_inbox';
                   }
       
                   // You can return any component that you like here!
@@ -35,6 +43,8 @@ export default ({ navigation }) => {
             }}
         >
             <Tab.Screen name="HomeNav" component={HomeNav} />
+            <Tab.Screen name="cart" component={cart} />
+            <Tab.Screen name="inventory" component={inventory} />
             <Tab.Screen name="LogOut">
                 {LogOutComp(navigation)}
             </Tab.Screen>

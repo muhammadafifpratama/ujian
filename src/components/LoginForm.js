@@ -11,6 +11,8 @@ import {
     userEnterCheck
 } from '../actions';
 import Axios from 'axios';
+import { mysqlapi } from '../helper/url';
+
 
 class LoginForm extends Component {
 
@@ -41,7 +43,7 @@ class LoginForm extends Component {
         if (username === '' || password === '') {
             alert('Fill in all the forms')
         } else {
-            Axios.post('http://192.168.1.10:2000/data/login', {
+            Axios.post(mysqlapi + 'login', {
                 username,
                 password
             }).catch((err) => {
@@ -51,8 +53,10 @@ class LoginForm extends Component {
             }).then((res) => {
                 if (res === undefined) {
                     console.log('no response');
+                    alert("login gagal")
                 }
                 else {
+                    AsyncStorage.setItem('nama', res.data.username);
                     alert('welcome ' + res.data.username)
                     this.props.navigation.dispatch(StackActions.replace('TabMenu'))
                 }
@@ -91,7 +95,7 @@ class LoginForm extends Component {
                             placeholder='Password'
                             leftIcon={
                                 <Icon
-                                    name='user'
+                                    name='lock'
                                     size={24}
                                     type='feather'
                                     color='tomato'

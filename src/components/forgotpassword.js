@@ -10,6 +10,7 @@ import {
     userEnterCheck
 } from '../actions';
 import Axios from 'axios';
+import {mysqlapi} from '../helper/url';
 
 class Forgot extends Component {
 
@@ -19,15 +20,15 @@ class Forgot extends Component {
 
     onBtnEnterPress = () => {
         let email = this.props.loginForm.email
-        Axios.post('http://192.168.1.10:2000/data/kirimemail', {
+        Axios.post(mysqlapi + 'kirimemail', {
             email
         }).catch((err) => {
             var error = JSON.stringify(err.response.data.message);
-            console.log(err.response.data);
+            console.log(err.response.data.message);
             alert(error)
         }).then((res) => {
             if (res === undefined) {
-                alert('email tidak terkirim');
+                alert('email gagal terkirim');
             }
             else {
                 alert('email terkirim')
@@ -55,7 +56,7 @@ class Forgot extends Component {
                         placeholder='please input asociated email'
                         leftIcon={
                             <Icon
-                                name='user'
+                                name='mail'
                                 size={24}
                                 type='feather'
                                 color='tomato'

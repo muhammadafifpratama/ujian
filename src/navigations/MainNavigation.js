@@ -4,6 +4,7 @@ import LoginForm from '../components/LoginForm';
 import TabNav from './TabNav';
 import forgot from '../components/forgotpassword';
 import register from '../components/register';
+// import drawer from './DrawerNav';
 
 const Stack = createStackNavigator()
 

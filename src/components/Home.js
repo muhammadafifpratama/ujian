@@ -5,10 +5,19 @@ import { connect } from 'react-redux';
 import { getHomeListPost, initRestaurantDetails } from '../actions';
 import IconHome from './IconHome';
 import RestaurantCard from './RestaurantCard';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Home extends React.Component {
+    state = { namauser: '' }
     componentDidMount() {
         this.props.getHomeListPost()
+        const username = AsyncStorage.getItem('username');
+        const ngetes = AsyncStorage.getItem('nama')
+            .then((res) => {
+                this.setState({
+                    namauser: res
+                })
+            })
     }
 
     restaurantItemPress = (resto) => {
@@ -16,12 +25,13 @@ class Home extends React.Component {
         this.props.navigation.navigate('RestaurantDetails')
     }
 
+
     render() {
         return (
             <View style={styles.containerStyle}>
                 <Header
                     rightComponent={{
-                        text: `Hallo,${this.props.user.username}`,
+                        text: `Hallo,${this.state.namauser}`,
                         style: { color: 'white', fontSize: 18, fontWeight: '700' }
                     }}
                     leftComponent={{

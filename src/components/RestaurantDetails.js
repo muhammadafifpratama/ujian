@@ -5,32 +5,57 @@ import { connect } from 'react-redux';
 import { initreviewdetail, getreviewlist } from '../actions';
 import axios from 'axios';
 import { Icon, Button } from 'native-base'
+import AsyncStorage from '@react-native-community/async-storage';
+import {mysqlapi} from '../helper/url'
 
 class RestaurantDetails extends React.Component {
-    state = { nama: '', harga: '', gambar: '', developers: '', publishers: '', genre: "", description: "" }
+    state = { nama: '', harga: '', gambar: '', developers: '', publishers: '', genre: "", description: "", username: "" }
     componentDidMount() {
+        // const username = AsyncStorage.getItem('nama')
+        //     .then((username) => {
+        //         console.log(username);
+        //         this.setState({
+        //             username: username
+        //         })
+        //     })
         var id = this.props.restaurantDetails.id
         axios.get(`https://store.steampowered.com/api/appdetails?appids=${id}`)
             .then((res) => {
-                console.log(this.state.nama+"ww");
-                nominal = "Rp. " + (res.data[id].data.price_overview.final/100)
                 this.setState({
                     nama: res.data[id].data.name,
-                    harga: nominal,
+                    harga: (res.data[id].data.price_overview.final / 100),
                     gambar: res.data[id].data.header_image,
                     developers: res.data[id].data.developers,
                     publishers: res.data[id].data.publishers,
                     genre: res.data[id].data.genres[0].description,
-                    description: res.data[id].data.short_description
+                    description: res.data[id].data.short_description,
                 })
             })
     }
 
+    addtocart = async () => {
+        const username = await AsyncStorage.getItem('nama')
+        let namagame = this.state.nama
+        let harga = this.state.harga
+        let response = await axios.post(mysqlapi + 'cart', {
+            username,
+            namagame,
+            harga
+    })
+    alert('game has been added to cart ')
+        console.log(username + namagame + harga);
+        console.log(response);
+    }
+
     render() {
-        console.log(this.state.nama+ "keluar");
+        // console.log(this.state.username);
         return (
             <ScrollView>
                 <Header
+                    // rightComponent={{
+                    //     text: `Hallo,${this.state.username}`,
+                    //     style: { color: 'white', fontSize: 18, fontWeight: '700' }
+                    // }}
                     placement='left'
                     centerComponent={{
                         text: this.state.nama,
@@ -51,7 +76,7 @@ class RestaurantDetails extends React.Component {
                 <View>
                     <Card
                         featuredTitle={this.state.nama}
-                        image={{ uri: this.state.gambar}}
+                        image={{ uri: this.state.gambar }}
                         wrapperStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         imageWrapperStyle={{ width: '100%' }}
                         imageStyle={{ height: 250 }}
@@ -64,7 +89,7 @@ class RestaurantDetails extends React.Component {
                             Harga
                     </Text>
                         <Text style={{ marginBottom: 10 }}>
-                            {this.state.harga}
+                           Rp. {this.state.harga}
                         </Text>
                         <Text style={{
                             marginBottom: 10,
@@ -96,14 +121,14 @@ class RestaurantDetails extends React.Component {
                         <Text style={{ marginBottom: 10 }}>
                             {this.state.genre}
                         </Text>
-                        <Button
-                        title="register"
-                        containerStyle={{ width: '95%', marginBottom: 10 }}
-                        buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
-                        onPress={this.toregister}
-                    />
                     </Card>
                 </View>
+                <Button
+                    title="add to cart"
+                    containerStyle={{ width: '95%', marginBottom: 10 }}
+                    buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
+                    onPress={this.addtocart}
+                />
             </ScrollView>
         )
     }

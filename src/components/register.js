@@ -10,6 +10,7 @@ import {
     userEnterCheck
 } from '../actions';
 import Axios from 'axios';
+import { mysqlapi } from '../helper/url';
 
 class Register extends Component {
 
@@ -23,22 +24,22 @@ class Register extends Component {
         }
         else {
             console.log(email, username, password, repassword);
-            Axios.post('http://192.168.1.10:2000/data/register', { 
-            username,
-            email,
-            password
-        }).catch((err)=> {
-            var error = JSON.stringify(err.response.data.message);
-            console.log(err.response.data);
-            alert(error)
-        }).then((res) => {
-            if (res === undefined) {
-                                alert('email tidak terkirim');
-                            }
-                            else {
-                                alert('email terkirim')
-                            }
-        })
+            Axios.post(mysqlapi + 'register', {
+                username,
+                email,
+                password
+            }).catch((err) => {
+                var error = JSON.stringify(err.response.data.message);
+                console.log(err.response.data);
+                alert(error)
+            }).then((res) => {
+                if (res === undefined) {
+                    alert('registration unsuccessfull')
+                }
+                else {
+                    alert('registration successfull')
+                }
+            })
         }
     }
     tologin = () => {
@@ -74,7 +75,7 @@ class Register extends Component {
                         placeholder='email'
                         leftIcon={
                             <Icon
-                                name='user'
+                                name='mail'
                                 size={24}
                                 type='feather'
                                 color='tomato'
@@ -87,7 +88,7 @@ class Register extends Component {
                         placeholder='password'
                         leftIcon={
                             <Icon
-                                name='user'
+                                name='lock'
                                 size={24}
                                 type='feather'
                                 color='tomato'
@@ -100,7 +101,7 @@ class Register extends Component {
                         placeholder='repeat password'
                         leftIcon={
                             <Icon
-                                name='user'
+                                name='lock'
                                 size={24}
                                 type='feather'
                                 color='tomato'
@@ -111,7 +112,7 @@ class Register extends Component {
                     />
                 </View>
                 <Button
-                    title="register"
+                    title="confirm"
                     containerStyle={{ width: '95%', marginBottom: 10 }}
                     buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
                     onPress={this.onbtnclick}
