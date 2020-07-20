@@ -6,10 +6,11 @@ import { Image } from 'react-native'
 const RestaurantCard = ({ data }) => {
     return (
         <Card>
-            <View style={{ borderTopStartRadius: 20 }}>
+            <View style={{ borderTopStartRadius: 20,flex:1 }}>
                 <Image
                     source={{ uri: data.header_image }}
-                    style={{ height: 200, width: "100%" }}
+                    resizeMode="cover"
+                    style={{ height: 200, width: "100%", resizeMode: "cover", flex: 1, justifyContent: "center" }}
                 />
             </View>
             <CardItem style={{ marginTop: -10 }}>
@@ -20,7 +21,7 @@ const RestaurantCard = ({ data }) => {
                             color: 'black'
                         }}
                     >
-                        Rp. {(data.final_price/100)}
+                        Rp. {(data.final_price / 100)}
                     </Text>
                 </Left>
             </CardItem>

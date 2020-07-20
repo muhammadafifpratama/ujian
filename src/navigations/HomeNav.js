@@ -4,7 +4,6 @@ import Home from '../components/Home';
 import RestaurantDetails from '../components/RestaurantDetails';
 import reviewdetail from '../components/reviewdetails'
 
-
 const Stack = createStackNavigator()
 
 export default (props) => {
@@ -16,7 +15,6 @@ export default (props) => {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="RestaurantDetails" component={RestaurantDetails} />
       <Stack.Screen name="reviewdetail" component={reviewdetail} />
-      {/* <Stack.Screen name="geser" component={drawer} /> */}
     </Stack.Navigator>
   )
 }

@@ -6,7 +6,7 @@ import { initreviewdetail, getreviewlist } from '../actions';
 import axios from 'axios';
 import { Icon, Button } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage';
-import {mysqlapi} from '../helper/url'
+import { mysqlapi } from '../helper/url'
 
 class RestaurantDetails extends React.Component {
     state = { nama: '', harga: '', gambar: '', developers: '', publishers: '', genre: "", description: "", username: "" }
@@ -41,8 +41,8 @@ class RestaurantDetails extends React.Component {
             username,
             namagame,
             harga
-    })
-    alert('game has been added to cart ')
+        })
+        alert('game has been added to cart ')
         console.log(username + namagame + harga);
         console.log(response);
     }
@@ -79,7 +79,7 @@ class RestaurantDetails extends React.Component {
                         image={{ uri: this.state.gambar }}
                         wrapperStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         imageWrapperStyle={{ width: '100%' }}
-                        imageStyle={{ height: 250 }}
+                        imageStyle={{ height: 250, resizeMode: "cover", flex: 1 }}
                     >
                         <Text style={{
                             marginBottom: 10,
@@ -89,7 +89,7 @@ class RestaurantDetails extends React.Component {
                             Harga
                     </Text>
                         <Text style={{ marginBottom: 10 }}>
-                           Rp. {this.state.harga}
+                            Rp. {this.state.harga}
                         </Text>
                         <Text style={{
                             marginBottom: 10,
@@ -125,8 +125,8 @@ class RestaurantDetails extends React.Component {
                 </View>
                 <Button
                     title="add to cart"
-                    containerStyle={{ width: '95%', marginBottom: 10 }}
-                    buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
+                    containerStyle={{ width: '95%', marginBottom: 10, backgroundColor: 'tomato', }}
+                    buttonStyle={{ backgroundColor: 'tomato', color: 'tomato' }}
                     onPress={this.addtocart}
                 />
             </ScrollView>

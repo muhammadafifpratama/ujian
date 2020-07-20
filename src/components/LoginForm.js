@@ -18,6 +18,13 @@ class LoginForm extends Component {
 
     componentDidMount() {
         this.props.userEnterCheck();
+        console.log(this.props.loginForm.username);
+        AsyncStorage.getItem('nama').then((res) => {
+            console.log(res + "nama");
+            if (res != null) {
+                this.props.navigation.dispatch(StackActions.replace('geser'))
+            }
+        })
     }
 
     componentDidUpdate() {
@@ -27,11 +34,11 @@ class LoginForm extends Component {
     }
 
     toforgotpassword = () => {
-        this.props.navigation.dispatch(StackActions.replace('forgotpassword'))
+        this.props.navigation.navigate('forgotpassword')
     }
 
     toregister = () => {
-        this.props.navigation.dispatch(StackActions.replace('register'))
+        this.props.navigation.navigate('register')
     }
 
     tologin = () => {
@@ -58,7 +65,7 @@ class LoginForm extends Component {
                 else {
                     AsyncStorage.setItem('nama', res.data.username);
                     alert('welcome ' + res.data.username)
-                    this.props.navigation.dispatch(StackActions.replace('TabMenu'))
+                    this.props.navigation.dispatch(StackActions.replace('geser'))
                 }
             })
         }

@@ -56,7 +56,7 @@ export const userEnterCheck = () => {
 
 export const onUserLogout = () => {
     return async (dispatch) => {
-        await AsyncStorage.removeItem('username')
-        dispatch({ type: USER_LOGIN_FAIL })
+        await AsyncStorage.clear()
+        dispatch({ type: USER_LOGIN_SUCCESS })
     }
 }

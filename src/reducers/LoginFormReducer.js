@@ -8,9 +8,10 @@ import {
 const INITIAL_STATE = {
     username: '',
     password: '',
-    error: '' ,
-    email: '' ,
+    error: '',
+    email: '',
     repassword: '',
+    voucher: '',
     loading: false
 }
 

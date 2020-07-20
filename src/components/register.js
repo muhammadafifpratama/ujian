@@ -11,6 +11,7 @@ import {
 } from '../actions';
 import Axios from 'axios';
 import { mysqlapi } from '../helper/url';
+import { Header } from 'react-native-elements';
 
 class Register extends Component {
 
@@ -48,6 +49,19 @@ class Register extends Component {
     render() {
         return (
             <View style={styles.containerStyle}>
+                <Header
+                    leftComponent={{
+                        icon: 'arrow-back',
+                        color: 'white',
+                        onPress: () => this.props.navigation.goBack()
+                    }}
+                    containerStyle={{
+                        backgroundColor: 'tomato',
+                        justifyContent: 'space-around',
+                        elevation: 2,
+                        marginTop: Platform.OS === 'ios' ? 0 : - 25
+                    }}
+                />
                 <Animatable.View animation={'fadeInDown'} duration={2000}>
                     <Text h3 style={{ color: 'tomato' }}>TomatoApp</Text>
                     <Icon
@@ -116,12 +130,6 @@ class Register extends Component {
                     containerStyle={{ width: '95%', marginBottom: 10 }}
                     buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
                     onPress={this.onbtnclick}
-                />
-                <Button
-                    title="login"
-                    containerStyle={{ width: '95%', marginBottom: 10 }}
-                    buttonStyle={{ backgroundColor: 'tomato', color: 'white' }}
-                    onPress={this.tologin}
                 />
             </View>
         );
