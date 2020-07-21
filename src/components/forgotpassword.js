@@ -43,7 +43,7 @@ class Forgot extends Component {
     render() {
         return (
             <View style={styles.containerStyle}>
-                 <Header
+                 {/* <Header
                     leftComponent={{
                         icon: 'arrow-back',
                         color: 'white',
@@ -55,7 +55,7 @@ class Forgot extends Component {
                         elevation: 2,
                         marginTop: Platform.OS === 'ios' ? 0 : - 25
                     }}
-                />
+                /> */}
                 <Animatable.View animation={'fadeInDown'} duration={2000}>
                     <Text h3 style={{ color: 'tomato' }}>TomatoApp</Text>
                     <Icon
@@ -92,12 +92,6 @@ class Forgot extends Component {
 }
 
 const styles = StyleSheet.create({
-    containerSplashStyle: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'tomato'
-    },
     containerStyle: {
         flex: 1,
         justifyContent: 'center',

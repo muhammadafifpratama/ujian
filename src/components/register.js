@@ -49,7 +49,7 @@ class Register extends Component {
     render() {
         return (
             <View style={styles.containerStyle}>
-                <Header
+                {/* <Header
                     leftComponent={{
                         icon: 'arrow-back',
                         color: 'white',
@@ -61,7 +61,7 @@ class Register extends Component {
                         elevation: 2,
                         marginTop: Platform.OS === 'ios' ? 0 : - 25
                     }}
-                />
+                /> */}
                 <Animatable.View animation={'fadeInDown'} duration={2000}>
                     <Text h3 style={{ color: 'tomato' }}>TomatoApp</Text>
                     <Icon

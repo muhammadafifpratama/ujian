@@ -5,10 +5,9 @@ import Table from './cartable'
 import axios from 'axios'
 import { mysqlapi } from '../helper/url'
 import AsyncStorage from '@react-native-community/async-storage';
-import { StackActions, DrawerActions } from '@react-navigation/native';
 
 class Cart extends Component {
-    state = { data: [], totalharga: 0, loading: true, username: "", saldo: 0 }
+    state = { data: [], totalharga: 0, loading: true, username: "", saldo: 0, disabled: true }
 
     async componentDidMount() {
         let username = await AsyncStorage.getItem('nama')
@@ -23,6 +22,49 @@ class Cart extends Component {
         this.setState({ data: response.data, totalharga: j, loading: false, username: username, saldo: saldo.data[0].saldo })
         // console.log(response.data);
         // console.log(response.data[0]);
+        if (this.state.totalharga > 0) {
+            this.setState({ disabled: false })
+        }
+    }
+
+    keygenerator = () => {
+        var asd1 = Math.random().toString(16).substr(0, 7).split('.');
+        var asd2 = Math.random().toString(36).substr(0, 7).split('.');
+        var asd3 = Math.random().toString(36).substr(0, 7).split('.');
+        var key = asd1[1] + '-' + asd2[1] + '-' + asd3[1]
+        return key
+    }
+
+    onBtnEnterPress = () => {
+        console.log(this.state.data);
+        let username = this.state.username
+        let hargatotal = this.state.totalharga
+        let saldo = this.state.saldo - hargatotal
+        if (saldo < 0) {
+            alert("saldonya kurang")
+        }
+        else {
+            for (let i = 0; i < this.state.data.length; i++) {
+                let namagame = this.state.data[i].namagame
+                try {
+                    let key = this.keygenerator()
+                    axios.post(mysqlapi + 'transaction', {
+                        username,
+                        key,
+                        namagame
+                    })
+                } catch (err) {
+                    alert(err.response.data)
+                }
+            }
+            axios.delete(mysqlapi + "transaction/" + username)
+            alert("silahkan cek inventory")
+            axios.patch(mysqlapi + saldo, {
+                saldo,
+                username
+            })
+            this.setState({ saldo: saldo })
+        }
     }
 
     deletecart = (idcart) => {
@@ -40,6 +82,9 @@ class Cart extends Component {
                         }
                         this.setState({ data: res.data, totalharga: j })
                         alert('Delete Successful!')
+                        if (this.state.totalharga === 0) {
+                            this.setState({ disabled: true })
+                        }
                     })
             })
             .catch((err) => {
@@ -67,6 +112,12 @@ class Cart extends Component {
                     j += res.data[i].harga;
                 }
                 this.setState({ data: res.data, totalharga: j })
+                if (this.state.totalharga > 0) {
+                    this.setState({ disabled: false })
+                }
+                else if (this.state.totalharga === 0) {
+                    this.setState({ disabled: true })
+                }
             })
     }
 
@@ -74,23 +125,20 @@ class Cart extends Component {
         return (
             <View>
                 <Header
-                    rightComponent={{
-                        text: `saldo anda : ${this.state.saldo}`,
+                    centerComponent={{
+                        text: `saldo anda : Rp. ${this.state.saldo}`,
                         style: { color: 'white', fontSize: 18, fontWeight: '700' }
                     }}
-                    leftComponent={{
-                        icon: 'ticket-account',
+                    rightComponent={{
+                        icon: 'arrow-back',
                         color: 'white',
-                        type: 'material-community'
+                        onPress: () => this.onloading()
                     }}
                     containerStyle={{
                         backgroundColor: 'tomato',
                         justifyContent: 'space-around',
                         elevation: 2,
                         marginTop: Platform.OS === 'ios' ? 0 : - 25
-                    }}
-                    rightContainerStyle={{
-                        flex: 3
                     }}
                 />
                 <FlatList
@@ -104,7 +152,18 @@ class Cart extends Component {
                 <Text>
                     Total price : Rp. {this.state.totalharga}
                 </Text>
-                <Button title="Confirm Order" ></Button>
+                <Button
+                    title="Confirm Order"
+                    containerStyle={{
+                        backgroundColor: 'tomato',
+                        justifyContent: 'space-around',
+                        elevation: 2,
+                        marginTop: Platform.OS === 'ios' ? 0 : - 25
+                    }}
+                    buttonStyle={{ backgroundColor: 'tomato', color: 'black' }}
+                    onPress={this.onBtnEnterPress}
+                    disabled={this.state.disabled}
+                />
             </View>
         )
     }

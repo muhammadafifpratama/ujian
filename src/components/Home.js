@@ -34,11 +34,6 @@ class Home extends React.Component {
                         text: `Hallo,${this.state.namauser}`,
                         style: { color: 'white', fontSize: 18, fontWeight: '700' }
                     }}
-                    leftComponent={{
-                        icon: 'ticket-account',
-                        color: 'white',
-                        type: 'material-community'
-                    }}
                     containerStyle={{
                         backgroundColor: 'tomato',
                         justifyContent: 'space-around',
