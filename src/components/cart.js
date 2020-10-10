@@ -13,15 +13,12 @@ class Cart extends Component {
         let username = await AsyncStorage.getItem('nama')
         let response = await axios.get(mysqlapi + 'cart/' + username)
         let saldo = await axios.get(mysqlapi + 'profile/' + username)
-        console.log(saldo.data[0].saldo);
         var i = 0;
         var j = 0
         for (i = 0; i < response.data.length; i++) {
             j += response.data[i].harga;
         }
         this.setState({ data: response.data, totalharga: j, loading: false, username: username, saldo: saldo.data[0].saldo })
-        // console.log(response.data);
-        // console.log(response.data[0]);
         if (this.state.totalharga > 0) {
             this.setState({ disabled: false })
         }
@@ -71,10 +68,8 @@ class Cart extends Component {
         let username = this.state.username
         axios.delete(mysqlapi + 'cart/' + idcart)
             .then((res) => {
-                console.log(username)
                 axios.get(mysqlapi + 'cart/' + username)
                     .then((res) => {
-                        // console.log(res.data + "kosong");
                         var i = 0;
                         var j = 0
                         for (i = 0; i < res.data.length; i++) {
@@ -88,16 +83,16 @@ class Cart extends Component {
                     })
             })
             .catch((err) => {
-                console.log(err)
+                alert(err)
             })
     }
 
     renderItem = ({ item }) => {
         return (
-            <TouchableOpacity
-                onPress={() => { this.deletecart(item.idcart) }} >
+            <View>
                 <Table data={item} />
-            </TouchableOpacity>
+                <Button title="delete" onPress={() => { this.deletecart(item.idcart) }} />
+            </View>
         )
     }
 
@@ -105,7 +100,6 @@ class Cart extends Component {
         let username = this.state.username
         axios.get(mysqlapi + 'cart/' + username)
             .then((res) => {
-                console.log(res.data + "kosong");
                 var i = 0;
                 var j = 0
                 for (i = 0; i < res.data.length; i++) {

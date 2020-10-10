@@ -149,6 +149,11 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release{
+            storeFile file('afif.keystore')
+            storePassword 'rahasia'
+            keyPassword 'rahasia'
+        }
     }
     buildTypes {
         debug {
